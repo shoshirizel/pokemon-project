@@ -57,7 +57,9 @@ def by_name(name):
         where name = '{name}'"""
         cursor.execute(query)
         res = cursor.fetchone()
-    return res['id']
+    if res is not None:
+        return res['id']
+    return None
 
 
 def delete(owner, pokemon):
