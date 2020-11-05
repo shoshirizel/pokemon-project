@@ -32,7 +32,8 @@ def insert_pokemon(poke):
 @app.route('/pokemons', methods = ["POST"])
 def add_pokemon():
     poke = request.get_json()
-    if not (poke.get("id") and poke.get("name") and poke.get("height") and poke.get("types")):
+    if not (poke.get("id") and poke.get("name") 
+            and poke.get("height") and poke.get("types")):
         return json.dumps("Not correct input"), 400
     try:
         insert_pokemon(poke) 
@@ -68,7 +69,8 @@ def get_pokemon():
         res = owner.by_owner(owner_)
         return json.dumps({"The pokemons": res}), 202
 
-    return json.dumps({"Message":"You didnt give us any information about the pokemon."}), 400
+    return json.dumps(
+        {"Message":"You didnt give us any information about the pokemon."}), 400
 
     
 
@@ -100,9 +102,11 @@ def evolve(owner_, pokemon_):
     try:
         owner.update_pokemon(owner_, poke_id, new_poke['id'])
     except Exception:
-        return json.dumps(f"Hi {owner_}! you cant evolve your pokemon to pokemon you alredy have."), 400
+        return json.dumps(
+            f"Hi {owner_}! you cant evolve your pokemon to pokemon you alredy have."), 400
    
-    return json.dumps(f"Hi {owner_}! your pokemon {pokemon_} evolved to {new_poke['name']}."), 200
+    return json.dumps(
+        f"Hi {owner_}! your pokemon {pokemon_} evolved to {new_poke['name']}."), 200
 
 @app.route('/owners/<owner_>')
 def valid_owner(owner_):
