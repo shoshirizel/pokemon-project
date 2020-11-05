@@ -14,10 +14,13 @@ connection = pymysql.connect(
 
 def add(pokemon):
     with connection.cursor() as poke_cursor:
-        query = f"INSERT into pokemon (id, name, height, weight) values ('{pokemon['id']}', '{pokemon['name']}', '{pokemon['height']}', '{pokemon['weight']}')"
+        query = f"""
+        INSERT into pokemon (id, name, height, weight)
+        values ('{pokemon['id']}', '{pokemon['name']}', '{pokemon['height']}', '{pokemon['weight']}')"""
         poke_cursor.execute(query)
         for type in set(pokemon["types"]):
-            query = f"INSERT into pokemon_type (pokemon_id, type) values ('{pokemon['id']}',  '{type}')"
+            query = f"""INSERT into pokemon_type (pokemon_id, type)
+            values ('{pokemon['id']}',  '{type}')"""
             poke_cursor.execute(query)
         connection.commit()
 
@@ -65,15 +68,19 @@ def by_name(name):
 def delete(owner, pokemon):
     with connection.cursor() as cursor:
         query =f"""DELETE FROM pokemon_owners 
-        WHERE owner_name = '{owner}' and pokemon_id = '{pokemon}' """
+        WHERE owner_name = '{owner}' 
+        and pokemon_id = '{pokemon}' """
         cursor.execute(query)
         connection.commit()
 
 
 def is_owners_pokemon(owner, pokemon):
     with connection.cursor() as cursor:
-        query = f"""SELECT * FROM pokemon_owners
-        WHERE owner_name = '{owner}' and pokemon_id = '{pokemon}'"""
+        query = f"""
+        SELECT * FROM pokemon_owners
+        WHERE owner_name = '{owner}' 
+        and pokemon_id = '{pokemon}'
+        """
         cursor.execute(query)
         res = cursor.fetchone()
     return res is not None
